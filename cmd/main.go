@@ -2,11 +2,14 @@ package main
 
 import (
 	"log"
+	"os"
 
 	todo "github.com/Safwood/go-server"
 	"github.com/Safwood/go-server/pkg/handler"
 	"github.com/Safwood/go-server/pkg/repository"
 	"github.com/Safwood/go-server/pkg/service"
+	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
 	"github.com/spf13/viper"
 )
 
@@ -14,7 +17,24 @@ func main()  {
 	if err := initConfig(); err != nil {
 		log.Fatalf("Ошибка подключения конфиг файла %s", err.Error())
 	}
-	repos := repository.NewRepository()
+
+	if err := godotenv.Load(); err != nil {
+		log.Fatalf("Ошибка подключения env файла %s", err.Error())
+	}
+
+	db, err := repository.NewPostgresDB(repository.Config{
+		Host: viper.GetString("db.host"),
+		Port: viper.GetString("db.port"),
+		Username: viper.GetString("db.username"),
+		Password: os.Getenv("DB_PASSWORD"),
+		DBName: viper.GetString("db.dbname"),
+		SSLMode: viper.GetString("db.sslmode"),
+	})
+
+	if err != nil {
+		log.Fatalf("No connection with DB", err.Error())
+	}
+	repos := repository.NewRepository(db)
 	services := service.NewService(repos)
 	handler := handler.NewHandler(services)
 	
