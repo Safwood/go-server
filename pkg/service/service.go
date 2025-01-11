@@ -1,9 +1,12 @@
 package service
 
-import "github.com/Safwood/go-server/pkg/repository"
+import (
+	todo "github.com/Safwood/go-server"
+	"github.com/Safwood/go-server/pkg/repository"
+)
 
 type Authorization interface {
-	
+	CreateUser(user todo.User) (int, error)
 }
 
 type TodoList interface {
@@ -21,5 +24,5 @@ type Service struct {
 }
 
 func NewService(repos *repository.Repository) *Service {
-	return &Service{}
+	return &Service{Authorization: newAuthService(repos.Authorization)}
 }

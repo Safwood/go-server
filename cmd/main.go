@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"os"
 
 	todo "github.com/Safwood/go-server"
@@ -10,16 +9,19 @@ import (
 	"github.com/Safwood/go-server/pkg/service"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
+	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
 
 func main()  {
+	logrus.SetFormatter(new(logrus.JSONFormatter))
+	
 	if err := initConfig(); err != nil {
-		log.Fatalf("Ошибка подключения конфиг файла %s", err.Error())
+		logrus.Fatalf("Ошибка подключения конфиг файла %s", err.Error())
 	}
 
 	if err := godotenv.Load(); err != nil {
-		log.Fatalf("Ошибка подключения env файла %s", err.Error())
+		logrus.Fatalf("Ошибка подключения env файла %s", err.Error())
 	}
 
 	db, err := repository.NewPostgresDB(repository.Config{
@@ -32,7 +34,7 @@ func main()  {
 	})
 
 	if err != nil {
-		log.Fatalf("No connection with DB", err.Error())
+		logrus.Fatalf("No connection with DB", err.Error())
 	}
 	repos := repository.NewRepository(db)
 	services := service.NewService(repos)
@@ -40,7 +42,7 @@ func main()  {
 	
 	srv := new(todo.Server)
 	if err := srv.Run(viper.GetString("port"), handler.InitRoutes()); err != nil {
-		log.Fatalf("Ошибка подключения сервера: %s", err.Error())
+		logrus.Fatalf("Ошибка подключения сервера: %s", err.Error())
 	}
 }
 
