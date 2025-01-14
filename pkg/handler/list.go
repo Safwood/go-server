@@ -3,13 +3,30 @@ package handler
 import (
 	"net/http"
 
+	todo "github.com/Safwood/go-server"
 	"github.com/gin-gonic/gin"
 )
 
 func (h *Handler) createList(c *gin.Context)  {
-	id, _ := c.Get(userCtx)
+	userId, err := getUserId(c)
+	if err != nil {
+		return
+	}
+
+	var input todo.TodoList
+	if err := c.BindJSON(&input); err != nil {
+		NewErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+	
+	listId, err := h.services.Create(userId, input)
+	if err != nil {
+		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
 	c.JSON(http.StatusOK, map[string]interface{}{
-		"id": id,
+		"listId": listId,
 	})
 }
 
