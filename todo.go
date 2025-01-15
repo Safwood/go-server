@@ -7,9 +7,9 @@ type TodoList struct {
 }
 
 type UserList struct {
-	Id int 
-	UserId string 
-	ListId string 
+	Id int  `json:"id" db:"id"`
+	UserId string  `json:"user_id" db:"user_id"`
+	ListId string  `json:"list_id" db:"list_id"`
 }
 
 type TodoItem struct {
