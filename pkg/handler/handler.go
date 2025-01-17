@@ -36,10 +36,14 @@ func (h *Handler) InitRoutes() *gin.Engine {
             {
                 item.POST("/", h.createItem)
                 item.GET("/", h.getAllItems)
-                item.GET("/:item_id", h.getItemById)
-                item.PUT("/:item_id", h.updateItem)
-                item.DELETE("/:item_id", h.deleteItem)
             }
+        }
+
+        items := api.Group("items")
+        {
+            items.GET("/:id", h.getItemById)
+            items.PUT("/:id", h.updateItem)
+            items.DELETE("/:id", h.deleteItem)
         }
     }
 

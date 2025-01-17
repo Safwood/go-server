@@ -64,8 +64,31 @@ func (h *Handler) getAllItems(c *gin.Context)  {
 	})
 }
 
+type itemsResponse struct {
+	Data todo.TodoItem `json:"data"`
+}
+
 func (h *Handler) getItemById(c *gin.Context)  {
+	userId, err := getUserId(c)
+	if err != nil {
+		return
+	}
+
+	itemId, err := strconv.Atoi(c.Param("id")); 
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid id param")
+		return
+	}
 	
+	item, err := h.services.TodoItem.GetItemById(userId, itemId)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, itemsResponse{
+		item,
+	})
 }
 
 func (h *Handler) updateItem(c *gin.Context)  {
