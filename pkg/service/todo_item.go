@@ -22,3 +22,11 @@ func (s *TodoItemService) CreateItem(userId, listId int, item todo.TodoItem) (in
 	return s.repo.CreateItem(listId, item)
 }
 
+func (s *TodoItemService) GetAllItems(userId, listId int) ([]todo.TodoItem, error) {
+	// проверяем что такой список и пользователь существуют
+	if _, err := s.listRepo.GetListById(userId, listId); err != nil {
+		return nil, err
+	}
+	return s.repo.GetAllItems(userId, listId)
+}
+
