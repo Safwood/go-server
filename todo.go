@@ -14,13 +14,13 @@ type UserList struct {
 
 type TodoItem struct {
 	Id int `json:"id"`
-	Title string `json:"title"`
+	Title string `json:"title" binding:"required"`
 	Description string `json:"description"`
-	Done string `json:"done"`
+	Done bool `json:"done"`
 }
 
 type ListItem struct {
-	Id int 
-	ListId string 
-	ItemId string 
+	Id int `json:"id"`
+	ListId string `json:"list_id"`
+	ItemId string `json:"item_id"`
 }

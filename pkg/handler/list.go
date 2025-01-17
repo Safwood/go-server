@@ -20,7 +20,7 @@ func (h *Handler) createList(c *gin.Context)  {
 		return
 	}
 	
-	listId, err := h.services.Create(userId, input)
+	listId, err := h.services.TodoList.Create(userId, input)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
