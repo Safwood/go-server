@@ -1,7 +1,7 @@
 package service
 
 import (
-	todo "github.com/Safwood/go-server"
+	sights "github.com/Safwood/go-server"
 	"github.com/Safwood/go-server/pkg/repository"
 )
 
@@ -13,14 +13,14 @@ func newTodoListService(repo repository.TodoList) *TodoListService {
 	return &TodoListService{repo}
 }
 
-func (s *TodoListService) Create(userId int, list todo.TodoList) (int, error) {
+func (s *TodoListService) Create(userId int, list sights.TodoList) (int, error) {
 	return s.repo.Create(userId, list)
 }
 
-func (s *TodoListService) GetAllLists(userId int) ([]todo.TodoList, error) {
+func (s *TodoListService) GetAllLists(userId int) ([]sights.TodoList, error) {
 	return s.repo.GetAllLists(userId)
 }
 
-func (s *TodoListService) GetListById(userId int, listId int) (todo.TodoList, error) {
+func (s *TodoListService) GetListById(userId int, listId int) (sights.TodoList, error) {
 	return s.repo.GetListById(userId, listId)
 }

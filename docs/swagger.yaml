@@ -7,14 +7,14 @@ definitions:
       username:
         type: string
     required:
-    - password
-    - username
+      - password
+      - username
     type: object
   handler.allListsResponse:
     properties:
       data:
         items:
-          $ref: '#/definitions/todo.TodoList'
+          $ref: "#/definitions/sights.TodoList"
         type: array
     type: object
   handler.errorResponse:
@@ -22,7 +22,7 @@ definitions:
       message:
         type: string
     type: object
-  todo.ListItem:
+  sights.ListItem:
     properties:
       id:
         type: integer
@@ -31,7 +31,7 @@ definitions:
       list_id:
         type: string
     type: object
-  todo.TodoList:
+  sights.TodoList:
     properties:
       description:
         type: string
@@ -40,9 +40,9 @@ definitions:
       title:
         type: string
     required:
-    - title
+      - title
     type: object
-  todo.User:
+  sights.User:
     properties:
       name:
         type: string
@@ -51,65 +51,65 @@ definitions:
       username:
         type: string
     required:
-    - name
-    - password
-    - username
+      - name
+      - password
+      - username
     type: object
 host: localhost:8000
 info:
   contact: {}
   description: API Server for my Application
-  title: My App API
+  title: Moscow Sights API
   version: "1.0"
 paths:
   /api/lists:
     get:
       consumes:
-      - application/json
+        - application/json
       description: get all lists
       operationId: get-all-lists
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handler.allListsResponse'
+            $ref: "#/definitions/handler.allListsResponse"
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/handler.errorResponse'
+            $ref: "#/definitions/handler.errorResponse"
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/handler.errorResponse'
+            $ref: "#/definitions/handler.errorResponse"
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/handler.errorResponse'
+            $ref: "#/definitions/handler.errorResponse"
         default:
           description: ""
           schema:
-            $ref: '#/definitions/handler.errorResponse'
+            $ref: "#/definitions/handler.errorResponse"
       security:
-      - ApiKeyAuth: []
+        - ApiKeyAuth: []
       summary: Get All Lists
       tags:
-      - lists
+        - lists
     post:
       consumes:
-      - application/json
-      description: create todo list
+        - application/json
+      description: create sights list
       operationId: create-list
       parameters:
-      - description: list info
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/todo.TodoList'
+        - description: list info
+          in: body
+          name: input
+          required: true
+          schema:
+            $ref: "#/definitions/sights.TodoList"
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: OK
@@ -118,73 +118,73 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/handler.errorResponse'
+            $ref: "#/definitions/handler.errorResponse"
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/handler.errorResponse'
+            $ref: "#/definitions/handler.errorResponse"
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/handler.errorResponse'
+            $ref: "#/definitions/handler.errorResponse"
         default:
           description: ""
           schema:
-            $ref: '#/definitions/handler.errorResponse'
+            $ref: "#/definitions/handler.errorResponse"
       security:
-      - ApiKeyAuth: []
-      summary: Create todo list
+        - ApiKeyAuth: []
+      summary: Create sights list
       tags:
-      - lists
+        - lists
   /api/lists/:id:
     get:
       consumes:
-      - application/json
+        - application/json
       description: get list by id
       operationId: get-list-by-id
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/todo.ListItem'
+            $ref: "#/definitions/sights.ListItem"
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/handler.errorResponse'
+            $ref: "#/definitions/handler.errorResponse"
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/handler.errorResponse'
+            $ref: "#/definitions/handler.errorResponse"
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/handler.errorResponse'
+            $ref: "#/definitions/handler.errorResponse"
         default:
           description: ""
           schema:
-            $ref: '#/definitions/handler.errorResponse'
+            $ref: "#/definitions/handler.errorResponse"
       security:
-      - ApiKeyAuth: []
+        - ApiKeyAuth: []
       summary: Get List By Id
       tags:
-      - lists
+        - lists
   /auth/sign-in:
     post:
       consumes:
-      - application/json
+        - application/json
       description: login
       operationId: login
       parameters:
-      - description: credentials
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/handler.SignInRequest'
+        - description: credentials
+          in: body
+          name: input
+          required: true
+          schema:
+            $ref: "#/definitions/handler.SignInRequest"
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: token
@@ -193,37 +193,37 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/handler.errorResponse'
+            $ref: "#/definitions/handler.errorResponse"
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/handler.errorResponse'
+            $ref: "#/definitions/handler.errorResponse"
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/handler.errorResponse'
+            $ref: "#/definitions/handler.errorResponse"
         default:
           description: ""
           schema:
-            $ref: '#/definitions/handler.errorResponse'
+            $ref: "#/definitions/handler.errorResponse"
       summary: SignIn
       tags:
-      - auth
+        - auth
   /auth/sign-up:
     post:
       consumes:
-      - application/json
+        - application/json
       description: create account
       operationId: create-account
       parameters:
-      - description: account info
-        in: body
-        name: input
-        required: true
-        schema:
-          $ref: '#/definitions/todo.User'
+        - description: account info
+          in: body
+          name: input
+          required: true
+          schema:
+            $ref: "#/definitions/sights.User"
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: OK
@@ -232,22 +232,22 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/handler.errorResponse'
+            $ref: "#/definitions/handler.errorResponse"
         "404":
           description: Not Found
           schema:
-            $ref: '#/definitions/handler.errorResponse'
+            $ref: "#/definitions/handler.errorResponse"
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/handler.errorResponse'
+            $ref: "#/definitions/handler.errorResponse"
         default:
           description: ""
           schema:
-            $ref: '#/definitions/handler.errorResponse'
+            $ref: "#/definitions/handler.errorResponse"
       summary: SignUp
       tags:
-      - auth
+        - auth
 securityDefinitions:
   ApiKeyAuth:
     in: header

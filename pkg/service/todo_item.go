@@ -1,7 +1,7 @@
 package service
 
 import (
-	todo "github.com/Safwood/go-server"
+	sights "github.com/Safwood/go-server"
 	"github.com/Safwood/go-server/pkg/repository"
 )
 
@@ -14,7 +14,7 @@ func newTodoItemService(repo repository.TodoItem, listRepo repository.TodoList) 
 	return &TodoItemService{repo, listRepo}
 }
 
-func (s *TodoItemService) CreateItem(userId, listId int, item todo.TodoItem) (int, error) {
+func (s *TodoItemService) CreateItem(userId, listId int, item sights.TodoItem) (int, error) {
 	// проверяем что такой список и пользователь существуют
 	if _, err := s.listRepo.GetListById(userId, listId); err != nil {
 		return 0, err
@@ -22,11 +22,11 @@ func (s *TodoItemService) CreateItem(userId, listId int, item todo.TodoItem) (in
 	return s.repo.CreateItem(listId, item)
 }
 
-func (s *TodoItemService) GetAllItems(userId, listId int) ([]todo.TodoItem, error) {
+func (s *TodoItemService) GetAllItems(userId, listId int) ([]sights.TodoItem, error) {
 	return s.repo.GetAllItems(userId, listId)
 }
 
-func (s *TodoItemService) GetItemById(userId, listId int) (todo.TodoItem, error) {
+func (s *TodoItemService) GetItemById(userId, listId int) (sights.TodoItem, error) {
 	return s.repo.GetItemById(userId, listId)
 }
 
@@ -34,6 +34,6 @@ func (s *TodoItemService) DeleteItem(userId, listId int) (error) {
 	return s.repo.DeleteItem(userId, listId)
 }
 
-func (s *TodoItemService) Update(userId, itemId int, input todo.UpdateItemInput) error {
+func (s *TodoItemService) Update(userId, itemId int, input sights.UpdateItemInput) error {
 	return s.repo.Update(userId, itemId, input)
 }

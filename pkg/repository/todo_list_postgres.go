@@ -3,7 +3,7 @@ package repository
 import (
 	"fmt"
 
-	todo "github.com/Safwood/go-server"
+	sights "github.com/Safwood/go-server"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -15,7 +15,7 @@ func NewTodoListPostgres(db *sqlx.DB) *TodoListPostgres {
 	return &TodoListPostgres{db}
 }
 
-func (r *TodoListPostgres) Create(userId int, list todo.TodoList) (int, error)  {
+func (r *TodoListPostgres) Create(userId int, list sights.TodoList) (int, error)  {
 	// начало транзакций
 	tx, err := r.db.Begin()
 
@@ -42,16 +42,16 @@ func (r *TodoListPostgres) Create(userId int, list todo.TodoList) (int, error)  
 	// конец транзакций
 }
 
-func (r *TodoListPostgres) GetAllLists(userId int) ([]todo.TodoList, error) {
-	var lists []todo.TodoList
+func (r *TodoListPostgres) GetAllLists(userId int) ([]sights.TodoList, error) {
+	var lists []sights.TodoList
 	query := fmt.Sprintf(`SELECT tl.id, tl.title, tl.description FROM %s tl INNER JOIN %s ul on tl.id = ul.list_id WHERE ul.user_id = $1`, todoListsTable, usersListsTable)
     err := r.db.Select(&lists, query, userId)
 
 	return lists, err
 }
 
-func (r *TodoListPostgres) GetListById(userId int, listId int) (todo.TodoList, error) {
-	var list todo.TodoList
+func (r *TodoListPostgres) GetListById(userId int, listId int) (sights.TodoList, error) {
+	var list sights.TodoList
 	query := fmt.Sprintf(`SELECT tl.id, tl.title, tl.description FROM %s tl INNER JOIN %s ul on tl.id = ul.list_id WHERE ul.user_id = $1 AND ul.list_id = $2`, todoListsTable, usersListsTable)
     err := r.db.Get(&list, query, userId, listId)
 

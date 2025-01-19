@@ -4,18 +4,18 @@ import (
 	"net/http"
 	"strconv"
 
-	todo "github.com/Safwood/go-server"
+	sights "github.com/Safwood/go-server"
 	"github.com/gin-gonic/gin"
 )
 
-// @Summary Create todo list
+// @Summary Create sights list
 // @Security ApiKeyAuth
 // @Tags lists
-// @Description create todo list
+// @Description create sights list
 // @ID create-list
 // @Accept  json
 // @Produce  json
-// @Param input body todo.TodoList true "list info"
+// @Param input body sights.TodoList true "list info"
 // @Success 200 {integer} integer 1
 // @Failure 400,404 {object} errorResponse
 // @Failure 500 {object} errorResponse
@@ -27,7 +27,7 @@ func (h *Handler) createList(c *gin.Context)  {
 		return
 	}
 
-	var input todo.TodoList
+	var input sights.TodoList
 	if err := c.BindJSON(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
@@ -45,7 +45,7 @@ func (h *Handler) createList(c *gin.Context)  {
 }
 
 type allListsResponse struct {
-	Data []todo.TodoList `json:"data"`
+	Data []sights.TodoList `json:"data"`
 }
 
 // @Summary Get All Lists 
@@ -82,7 +82,7 @@ func (h *Handler) getAllLists(c *gin.Context)  {
 // @ID get-list-by-id
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} todo.ListItem
+// @Success 200 {object} sights.ListItem
 // @Failure 400,404 {object} errorResponse
 // @Failure 500 {object} errorResponse
 // @Failure default {object} errorResponse

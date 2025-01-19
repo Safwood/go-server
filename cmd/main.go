@@ -6,7 +6,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	todo "github.com/Safwood/go-server"
+	sights "github.com/Safwood/go-server"
 	"github.com/Safwood/go-server/pkg/handler"
 	"github.com/Safwood/go-server/pkg/repository"
 	"github.com/Safwood/go-server/pkg/service"
@@ -16,7 +16,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-// @title My App API
+// @title Moscow Sights API
 // @version 1.0
 // @description API Server for my Application
 
@@ -53,20 +53,20 @@ func main()  {
 	services := service.NewService(repos)
 	handlers := handler.NewHandler(services)
 	
-	srv := new(todo.Server)
+	srv := new(sights.Server)
 	go func() {
 		if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
 			logrus.Fatalf("error occured while running http server: %s", err.Error())
 		}
 	}()
 
-	logrus.Print("TodoApp Started")
+	logrus.Print("MoscowSightsApp Started")
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGTERM, syscall.SIGINT)
 	<-quit
 
-	logrus.Print("TodoApp Shutting Down")
+	logrus.Print("MoscowSightsApp Shutting Down")
 
 	if err := srv.Shutdown(context.Background()); err != nil {
 		logrus.Errorf("error occurred on server shutting down: %s", err.Error())

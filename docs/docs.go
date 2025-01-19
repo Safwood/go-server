@@ -73,7 +73,7 @@ const docTemplate = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "create todo list",
+                "description": "create sights list",
                 "consumes": [
                     "application/json"
                 ],
@@ -83,7 +83,7 @@ const docTemplate = `{
                 "tags": [
                     "lists"
                 ],
-                "summary": "Create todo list",
+                "summary": "Create sights list",
                 "operationId": "create-list",
                 "parameters": [
                     {
@@ -92,7 +92,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/todo.TodoList"
+                            "$ref": "#/definitions/sights.TodoList"
                         }
                     }
                 ],
@@ -153,7 +153,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/todo.ListItem"
+                            "$ref": "#/definitions/sights.ListItem"
                         }
                     },
                     "400": {
@@ -263,7 +263,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/todo.User"
+                            "$ref": "#/definitions/sights.User"
                         }
                     }
                 ],
@@ -324,7 +324,7 @@ const docTemplate = `{
                 "data": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/todo.TodoList"
+                        "$ref": "#/definitions/sights.TodoList"
                     }
                 }
             }
@@ -337,7 +337,7 @@ const docTemplate = `{
                 }
             }
         },
-        "todo.ListItem": {
+        "sights.ListItem": {
             "type": "object",
             "properties": {
                 "id": {
@@ -351,7 +351,7 @@ const docTemplate = `{
                 }
             }
         },
-        "todo.TodoList": {
+        "sights.TodoList": {
             "type": "object",
             "required": [
                 "title"
@@ -368,7 +368,7 @@ const docTemplate = `{
                 }
             }
         },
-        "todo.User": {
+        "sights.User": {
             "type": "object",
             "required": [
                 "name",
@@ -403,7 +403,7 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "localhost:8000",
 	BasePath:         "/",
 	Schemes:          []string{},
-	Title:            "My App API",
+	Title:            "Moscow Sights API",
 	Description:      "API Server for my Application",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,

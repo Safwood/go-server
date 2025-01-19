@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	todo "github.com/Safwood/go-server"
+	sights "github.com/Safwood/go-server"
 	"github.com/Safwood/go-server/pkg/repository"
 	"github.com/dgrijalva/jwt-go"
 )
@@ -30,7 +30,7 @@ func newAuthService(repo repository.Authorization) *AuthService {
 	return &AuthService{repo}
 }
 
-func (s *AuthService) CreateUser(user todo.User) (int, error) {
+func (s *AuthService) CreateUser(user sights.User) (int, error) {
 	user.Password = generatePasswordHash(user.Password)
 	return s.repo.CreateUser(user)
 }
