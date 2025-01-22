@@ -14,13 +14,6 @@ func (h *Handler) createPark(c *gin.Context)  {
 		return
 	}
 
-	// logFile, err := os.OpenFile("log.txt", os.O_CREATE | os.O_APPEND | os.O_RDWR, 0666)
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// mw := io.MultiWriter(os.Stdout, logFile)
-	// log.SetOutput(mw)
-
 	var input sights.Park
 	if err := c.BindJSON(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
