@@ -1,9 +1,5 @@
-DROP TABLE list_item;
+DROP TABLE users_parks;
 
-DROP TABLE users_lists;
+DROP TABLE parks;
 
 DROP TABLE users;
-
-DROP TABLE todo_lists;
-
-DROP TABLE todo_item;

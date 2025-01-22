@@ -24,10 +24,19 @@ type TodoItem interface {
 	Update(userId, itemId int, input sights.UpdateItemInput) error
 }
 
+type Park interface {
+	CreatePark(userId int, park sights.Park) (int, error)
+	GetAllParks(userId int) ([]sights.Park, error)
+	GetParkById(userId, parkId int) (sights.GetParkOutput, error)
+	DeletePark(userId, parkId int) (error)
+	UpdatePark(userId, parkId int, input sights.UpdateParkInput) error
+}
+
 type Repository struct {
 	Authorization
 	TodoList
 	TodoItem
+	Park
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
@@ -35,5 +44,6 @@ func NewRepository(db *sqlx.DB) *Repository {
 		Authorization: NewAuthPostgres(db), 
 		TodoList: NewTodoListPostgres(db),
 		TodoItem: NewTodoItemPostgres(db),
+		Park: NewParkPostgres(db),
 	}
 }

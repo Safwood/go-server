@@ -25,10 +25,19 @@ type TodoItem interface {
 	Update(userId, itemId int, input sights.UpdateItemInput) error
 }
 
+type Park interface {
+	CreatePark(userId int, park sights.Park) (int, error)
+	GetAllParks(userId int) ([]sights.Park, error)
+	GetParkById(userId, parkId int) (sights.GetParkOutput, error)
+	DeletePark(userId, parkId int) (error)
+	UpdatePark(userId, parkId int, input sights.UpdateParkInput) error
+}
+
 type Service struct {
 	Authorization
 	TodoList
 	TodoItem
+	Park
 }
 
 func NewService(repos *repository.Repository) *Service {
@@ -36,5 +45,6 @@ func NewService(repos *repository.Repository) *Service {
 		Authorization: newAuthService(repos.Authorization),
 		TodoList: newTodoListService(repos.TodoList),
 		TodoItem: newTodoItemService(repos.TodoItem, repos.TodoList),
+		Park: newParkService(repos.Park),
 	}
 }

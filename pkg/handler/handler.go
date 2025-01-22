@@ -52,7 +52,17 @@ func (h *Handler) InitRoutes() *gin.Engine {
             items.PUT("/:id", h.updateItem)
             items.DELETE("/:id", h.deleteItem)
         }
+
+        parks := api.Group("/parks", h.UserIdentity) 
+        {
+            parks.POST("/", h.createPark)
+            parks.GET("/", h.getAllParks)
+            parks.GET("/:id", h.getParkById)
+            parks.PUT("/:id", h.updatePark)
+            parks.DELETE("/:id", h.deletePark)
+        }
     }
+
 
     return router
 }

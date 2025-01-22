@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	sights "github.com/Safwood/go-server"
+	todo "github.com/Safwood/go-server"
 	"github.com/jmoiron/sqlx"
 	"github.com/sirupsen/logrus"
 )
@@ -17,7 +17,7 @@ func NewTodoItemPostgres(db *sqlx.DB) *TodoItemPostgres {
 	return &TodoItemPostgres{db}
 }
 
-func (r *TodoItemPostgres) CreateItem(listId int, item sights.TodoItem) (int, error)  {
+func (r *TodoItemPostgres) CreateItem(listId int, item todo.TodoItem) (int, error)  {
 	// начало транзакций
 	tx, err := r.db.Begin()
 
@@ -44,8 +44,8 @@ func (r *TodoItemPostgres) CreateItem(listId int, item sights.TodoItem) (int, er
 	// конец транзакций
 }
 
-func (r *TodoItemPostgres) GetAllItems(userId, listId int) ([]sights.TodoItem, error)  {
-	var items []sights.TodoItem
+func (r *TodoItemPostgres) GetAllItems(userId, listId int) ([]todo.TodoItem, error)  {
+	var items []todo.TodoItem
 
 	query := fmt.Sprintf("SELECT tit.id, tit.title, tit.description, tit.done FROM %s tit INNER JOIN %s lit on tit.id = lit.item_id INNER JOIN %s ul on ul.list_id = lit.list_id WHERE lit.list_id = $1 AND ul.user_id = $2", todoItemTable, listItemTable, usersListsTable)
 	err := r.db.Select(&items, query, listId, userId)
@@ -53,8 +53,8 @@ func (r *TodoItemPostgres) GetAllItems(userId, listId int) ([]sights.TodoItem, e
 	return items, err
 }
 
-func (r *TodoItemPostgres) GetItemById(userId, itemId int) (sights.TodoItem, error)  {
-	var item sights.TodoItem
+func (r *TodoItemPostgres) GetItemById(userId, itemId int) (todo.TodoItem, error)  {
+	var item todo.TodoItem
 
 	query := fmt.Sprintf("SELECT tit.id, tit.title, tit.description, tit.done FROM %s tit INNER JOIN %s lit on tit.id = lit.item_id INNER JOIN %s ul on ul.list_id = lit.list_id WHERE lit.item_id = $1 AND ul.user_id = $2", todoItemTable, listItemTable, usersListsTable)
 	err := r.db.Get(&item, query, itemId, userId)
@@ -69,7 +69,7 @@ func (r *TodoItemPostgres) DeleteItem(userId, itemId int) (error)  {
 	return err
 }
 
-func (r *TodoItemPostgres) Update(userId, itemId int, input sights.UpdateItemInput) error {
+func (r *TodoItemPostgres) Update(userId, itemId int, input todo.UpdateItemInput) error {
 	setValues := make([]string, 0)
 	args := make([]interface{}, 0)
 	argId := 1
@@ -94,8 +94,7 @@ func (r *TodoItemPostgres) Update(userId, itemId int, input sights.UpdateItemInp
 
 	setQuery := strings.Join(setValues, ", ")
 
-	query := fmt.Sprintf(`UPDATE %s ti SET %s FROM %s li, %s ul
-									WHERE ti.id = li.item_id AND li.list_id = ul.list_id AND ul.user_id = $%d AND ti.id = $%d`,
+	query := fmt.Sprintf(`UPDATE %s ti SET %s FROM %s li, %s ul	WHERE ti.id = li.item_id AND li.list_id = ul.list_id AND ul.user_id = $%d AND ti.id = $%d`,
 		todoItemTable, setQuery, listItemTable, usersListsTable, argId, argId+1)
 	args = append(args, userId, itemId)
 
