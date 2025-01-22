@@ -40,11 +40,6 @@ func (h *Handler) getAllParks(c *gin.Context)  {
 	if err != nil {
 		return
 	}
-
-	if err != nil {
-		newErrorResponse(c, http.StatusBadRequest, "invalid id param")
-		return
-	}
 	
 	parks, err := h.services.Park.GetAllParks(userId)
 	if err != nil {
