@@ -24,17 +24,22 @@ type Park struct {
 	Title string `json:"title" db:"title" binding:"required"`
 	Description string `json:"description" db:"description"`
 	Coords []float32 `json:"coords" db:"coords"`
-	Address sql.NullString `json:"address" db:"address"`
+	Address string `json:"address" db:"address"`
 }
 
+type GetParksOutput struct {
+	Id int `json:"id" db:"id"`
+	Title string `json:"title"`
+	Description string `json:"description"`
+	Coords string `json:"coords"`
+	Address string `json:"address"`
+}
 type GetParkOutput struct {
 	Id int `json:"id" db:"id"`
 	Title *string `json:"title"`
 	Description *string `json:"description"`
 	Coords []float32 `json:"coords"`
 	Address *string `json:"address"`
-
-	
 }
 // * - если не строка то вернет null 
 type UpdateParkInput struct {

@@ -8,6 +8,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Summary Create park
+// @Security ApiKeyAuth
+// @Tags parks
+// @Description create park
+// @ID create-park
+// @Accept  json
+// @Produce  json
+// @Param input body sights.Park true "park info"
+// @Success 200 {integer} integer 1
+// @Failure 400,404 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Failure default {object} errorResponse
+// @Router /api/parks [post]
 func (h *Handler) createPark(c *gin.Context)  {
 	userId, err := getUserId(c)
 	if err != nil {
@@ -35,6 +48,18 @@ type allParksResponse struct {
 	Data []sights.Park `json:"data"`
 }
 
+// @Summary GetAllParks 
+// @Security ApiKeyAuth
+// @Tags parks
+// @Description get list of parks
+// @ID get-all-lists
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} []sights.Park
+// @Failure 400,404 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Failure default {object} errorResponse
+// @Router /api/parks [get]
 func (h *Handler) getAllParks(c *gin.Context)  {
 	userId, err := getUserId(c)
 	if err != nil {
@@ -56,6 +81,18 @@ type parkResponse struct {
 	Data sights.GetParkOutput `json:"data"`
 }
 
+// @Summary Get Park By Id
+// @Security ApiKeyAuth
+// @Tags parks
+// @Description get park by id
+// @ID get-park-by-id
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} sights.Park
+// @Failure 400,404 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Failure default {object} errorResponse
+// @Router /api/parks/:id [get]
 func (h *Handler) getParkById(c *gin.Context)  {
 	userId, err := getUserId(c)
 	if err != nil {
@@ -79,6 +116,18 @@ func (h *Handler) getParkById(c *gin.Context)  {
 	})
 }
 
+// @Summary Update Park
+// @Security ApiKeyAuth
+// @Tags parks
+// @Description update park
+// @ID update-park
+// @Accept  json
+// @Produce  json
+// @Success 200
+// @Failure 400,404 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Failure default {object} errorResponse
+// @Router /api/parks/:id [put]
 func (h *Handler) updatePark(c *gin.Context)  {
 	userId, err := getUserId(c)
 	if err != nil {
@@ -106,6 +155,18 @@ func (h *Handler) updatePark(c *gin.Context)  {
 	c.JSON(http.StatusOK, statusResponse{"ok"})
 }
 
+// @Summary Delete Park
+// @Security ApiKeyAuth
+// @Tags parks
+// @Description delete park
+// @ID delete-park
+// @Accept  json
+// @Produce  json
+// @Success 200
+// @Failure 400,404 {object} errorResponse
+// @Failure 500 {object} errorResponse
+// @Failure default {object} errorResponse
+// @Router /api/parks/:id [delete]
 func (h *Handler) deletePark(c *gin.Context)  {
 	userId, err := getUserId(c)
 	if err != nil {

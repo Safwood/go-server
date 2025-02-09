@@ -51,11 +51,21 @@ func (r *ParkPostgres) CreatePark(userId int, park sights.Park) (int, error)  {
 }
 
 func (r *ParkPostgres) GetAllParks(userId int) ([]sights.Park, error) {
+	var parks []sights.GetParksOutput
 	var result []sights.Park
 	query := fmt.Sprintf(`SELECT pl.id, pl.title, pl.description, pl.address, pl.coords FROM %s pl INNER JOIN %s up on pl.id = up.park_id WHERE up.user_id = $1`, parksTable, usersParksTable)
-    
-	err := r.db.Select(&result, query, userId)
-	log.Print(result)
+	err := r.db.Select(&parks, query, userId)
+
+	for _, el := range parks {
+		var park sights.Park
+		jsonData := []byte(el.Coords)
+		json.Unmarshal(jsonData, &park.Coords)
+		park.Id = el.Id
+		park.Address = el.Address
+		park.Description = el.Description
+		park.Title = el.Title
+		result = append(result, park)
+	}
 
 	return result, err
 }
@@ -72,7 +82,6 @@ func (r *ParkPostgres) GetParkById(userId int, parkId int) (sights.GetParkOutput
 	}
 	
     json.Unmarshal(jsonData, &park.Coords)
-	log.Println(&park.Coords)
 
 	return park, err
 }
@@ -91,7 +100,7 @@ func (r *ParkPostgres) UpdatePark(userId, parkId int, input sights.UpdateParkInp
 
 	if input.Title != nil {
 		setValues = append(setValues, fmt.Sprintf("title=$%d", argId))
-		args = append(args, *input.Title)
+		args = append(args, input.Title)
 		argId++
 	}
 

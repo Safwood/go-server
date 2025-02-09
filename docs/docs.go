@@ -15,14 +15,14 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/lists": {
+        "/api/parks": {
             "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "get all lists",
+                "description": "get list of parks",
                 "consumes": [
                     "application/json"
                 ],
@@ -30,15 +30,18 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "lists"
+                    "parks"
                 ],
-                "summary": "Get All Lists",
+                "summary": "GetAllParks",
                 "operationId": "get-all-lists",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handler.allListsResponse"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/sights.Park"
+                            }
                         }
                     },
                     "400": {
@@ -73,7 +76,7 @@ const docTemplate = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "create sights list",
+                "description": "create park",
                 "consumes": [
                     "application/json"
                 ],
@@ -81,18 +84,18 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "lists"
+                    "parks"
                 ],
-                "summary": "Create sights list",
-                "operationId": "create-list",
+                "summary": "Create park",
+                "operationId": "create-park",
                 "parameters": [
                     {
-                        "description": "list info",
+                        "description": "park info",
                         "name": "input",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/sights.TodoList"
+                            "$ref": "#/definitions/sights.Park"
                         }
                     }
                 ],
@@ -130,14 +133,14 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/lists/:id": {
+        "/api/parks/:id": {
             "get": {
                 "security": [
                     {
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "get list by id",
+                "description": "get park by id",
                 "consumes": [
                     "application/json"
                 ],
@@ -145,16 +148,112 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "lists"
+                    "parks"
                 ],
-                "summary": "Get List By Id",
-                "operationId": "get-list-by-id",
+                "summary": "Get Park By Id",
+                "operationId": "get-park-by-id",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/sights.ListItem"
+                            "$ref": "#/definitions/sights.Park"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "update park",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "parks"
+                ],
+                "summary": "Update Park",
+                "operationId": "update-park",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "delete park",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "parks"
+                ],
+                "summary": "Delete Park",
+                "operationId": "delete-park",
+                "responses": {
+                    "200": {
+                        "description": "OK"
                     },
                     "400": {
                         "description": "Bad Request",
@@ -318,17 +417,6 @@ const docTemplate = `{
                 }
             }
         },
-        "handler.allListsResponse": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/sights.TodoList"
-                    }
-                }
-            }
-        },
         "handler.errorResponse": {
             "type": "object",
             "properties": {
@@ -337,26 +425,21 @@ const docTemplate = `{
                 }
             }
         },
-        "sights.ListItem": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer"
-                },
-                "item_id": {
-                    "type": "string"
-                },
-                "list_id": {
-                    "type": "string"
-                }
-            }
-        },
-        "sights.TodoList": {
+        "sights.Park": {
             "type": "object",
             "required": [
                 "title"
             ],
             "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "coords": {
+                    "type": "array",
+                    "items": {
+                        "type": "number"
+                    }
+                },
                 "description": {
                     "type": "string"
                 },
