@@ -20,7 +20,7 @@ build:
     paths:
       - main
     expire_in: 1 hour
-    only:
+  only:
       - main
 docker_build:
   stage: docker_build
@@ -33,7 +33,7 @@ docker_build:
     paths:
       - image.tar
     expire_in: 1 hour
-    only:
+  only:
       - main
 # deploy:
 #   stage: deploy
