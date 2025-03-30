@@ -1,13 +1,44 @@
+image: golang:1.20
+
 stages:
   - build
-  - test
+  - docker_build
+  # - deploy
 
-build-job:
+variables:
+  GOPATH: /go
+
+# before_script:
+#   - go env -w GOPRIVATE=gitlab.com/your_username/your_repo
+
+build:
   stage: build
   script:
-    - echo "Building..."
-
-test-job:
-  stage: test
+    # - go test ./...
+    - go build -o main ./cmd
+  artifacts:
+    paths:
+      - main
+    expire_in: 1 hour
+    only:
+      - main
+docker_build:
+  stage: docker_build
+  image: docker:latest
+  services:
+    - docker:dind
   script:
-    - echo "Running tests..."
+    - docker build -t $IMAGE_NAME:$IMAGE_TAG .
+  artifacts:
+    paths:
+      - image.tar
+    expire_in: 1 hour
+    only:
+      - main
+# deploy:
+#   stage: deploy
+#   script:
+#     - echo "Deploying Docker container..."
+#     - ssh user@your.server.com "docker pull $IMAGE_NAME:$IMAGE_TAG && docker run -d --rm --name myapp $IMAGE_NAME:$IMAGE_TAG"
+#   only:
+#     - main

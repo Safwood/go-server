@@ -8,5 +8,5 @@
 ## Работа с репозиториями
 
 - Проверить удаленные репозитории git remote -v
-- Чтобы запушить в github git push
-- Чтобы запушить в gitlab git push gitlab main
+- Чтобы запушить в github: git push
+- Чтобы запушить в gitlab: git push gitlab main
