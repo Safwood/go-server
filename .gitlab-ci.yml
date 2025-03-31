@@ -1,4 +1,4 @@
-image: golang:1.20
+image: golang:1.23
 
 stages:
   - build
@@ -21,7 +21,7 @@ build:
       - main
     expire_in: 1 hour
   only:
-      - main
+    - main
 docker_build:
   stage: docker_build
   image: docker:latest
@@ -34,7 +34,7 @@ docker_build:
       - image.tar
     expire_in: 1 hour
   only:
-      - main
+    - main
 # deploy:
 #   stage: deploy
 #   script:
