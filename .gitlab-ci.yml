@@ -3,13 +3,12 @@ image: golang:1.23
 stages:
   - build
   - docker_build
-  # - deploy
+  - deploy
 
 variables:
   GOPATH: /go
-
-# before_script:
-#   - go env -w GOPRIVATE=gitlab.com/your_username/your_repo
+  IMAGE_NAME: registry.gitlab.com/Safwood/map-routes/go-server
+  IMAGE_TAG: $CI_COMMIT_SHORT_SHA # Тег = хеш коммита
 
 build:
   stage: build
@@ -28,17 +27,32 @@ docker_build:
   services:
     - docker:dind
   script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build -t $IMAGE_NAME:$IMAGE_TAG .
+    - docker push $IMAGE_NAME:$IMAGE_TAG
   artifacts:
     paths:
       - image.tar
     expire_in: 1 hour
   only:
     - main
-# deploy:
-#   stage: deploy
-#   script:
-#     - echo "Deploying Docker container..."
-#     - ssh user@your.server.com "docker pull $IMAGE_NAME:$IMAGE_TAG && docker run -d --rm --name myapp $IMAGE_NAME:$IMAGE_TAG"
-#   only:
-#     - main
+deploy:
+  stage: deploy
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache openssh-client
+    - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+  script:
+    - ssh -p 2224 safwood@193.38.235.180 "
+      docker pull $IMAGE_NAME:$IMAGE_TAG && \
+      docker stop map-routes || true && \
+      docker rm map-routes || true && \
+      docker run -d
+      --name map-routes \
+      --restart=always \
+      -p 8000:8000 \
+      $IMAGE_NAME:$IMAGE_TAG
+      "
+  only:
+    - main
