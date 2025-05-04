@@ -32,10 +32,6 @@ docker_build:
     - echo $IMAGE_NAME
     - echo $CI_REGISTRY
     - docker push $IMAGE_NAME:$IMAGE_TAG
-  artifacts:
-    paths:
-      - image.tar
-    expire_in: 1 hour
   only:
     - main
 deploy:
