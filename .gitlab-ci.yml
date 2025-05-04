@@ -30,12 +30,8 @@ docker_build:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build -t $IMAGE_NAME:$IMAGE_TAG .
     - echo $IMAGE_NAME
-    - echo "CI_REGISTRY: $CI_REGISTRY"
+    - echo $CI_REGISTRY
     - docker push $IMAGE_NAME:$IMAGE_TAG
-  artifacts:
-    paths:
-      - image.tar
-    expire_in: 1 hour
   only:
     - main
 deploy:
@@ -43,18 +39,23 @@ deploy:
   image: alpine:latest
   before_script:
     - apk add --no-cache openssh-client
+    - mkdir -p ~/.ssh # Создаем директорию
+    - chmod 700 ~/.ssh
     - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
+    - echo "Host *" > ~/.ssh/config
+    - echo "  StrictHostKeyChecking no" >> ~/.ssh/config
   script:
-    - ssh -p 2224 safwood@193.38.235.180 "
-      docker pull $IMAGE_NAME:$IMAGE_TAG && \
-      docker stop map-routes || true && \
-      docker rm map-routes || true && \
-      docker run -d
-      --name map-routes \
-      --restart=always \
-      -p 8000:8000 \
-      $IMAGE_NAME:$IMAGE_TAG
+    - |
+      ssh -p 2224 safwood@193.38.235.180 "
+        docker pull $IMAGE_NAME:$IMAGE_TAG && \
+        docker stop map-routes || true && \
+        docker rm map-routes || true && \
+        docker run -d \
+          --name map-routes \
+          --restart=always \
+          -p 8000:8000 \
+          $IMAGE_NAME:$IMAGE_TAG
       "
   only:
     - main
