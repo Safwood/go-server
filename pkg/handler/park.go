@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strconv"
 
-	sights "github.com/Safwood/go-server"
 	"github.com/gin-gonic/gin"
+	sights "github.com/safwood/go-server"
 )
 
 // @Summary Create park

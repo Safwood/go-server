@@ -1,8 +1,8 @@
 package repository
 
 import (
-	sights "github.com/Safwood/go-server"
 	"github.com/jmoiron/sqlx"
+	sights "github.com/safwood/go-server"
 )
 
 type Authorization interface {

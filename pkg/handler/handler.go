@@ -1,13 +1,13 @@
 package handler
 
 import (
-    "github.com/Safwood/go-server/pkg/service"
 	"github.com/gin-gonic/gin"
+	"github.com/safwood/go-server/pkg/service"
 
-    "github.com/swaggo/gin-swagger"
-	"github.com/swaggo/files"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 
-    _ "github.com/Safwood/go-server/docs"
+	_ "github.com/safwood/go-server/docs"
 )
 
 type Handler struct {

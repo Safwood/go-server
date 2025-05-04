@@ -6,8 +6,8 @@ import (
 	"log"
 	"strings"
 
-	sights "github.com/Safwood/go-server"
 	"github.com/jmoiron/sqlx"
+	sights "github.com/safwood/go-server"
 )
 
 type ParkPostgres struct {

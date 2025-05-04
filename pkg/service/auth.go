@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"time"
 
-	sights "github.com/Safwood/go-server"
-	"github.com/Safwood/go-server/pkg/repository"
 	"github.com/dgrijalva/jwt-go"
+	sights "github.com/safwood/go-server"
+	"github.com/safwood/go-server/pkg/repository"
 )
 
 const (

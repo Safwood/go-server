@@ -1,4 +1,4 @@
-module github.com/Safwood/go-server
+module github.com/safwood/go-server
 
 go 1.23.4
 

@@ -6,12 +6,12 @@ import (
 	"os/signal"
 	"syscall"
 
-	sights "github.com/Safwood/go-server"
-	"github.com/Safwood/go-server/pkg/handler"
-	"github.com/Safwood/go-server/pkg/repository"
-	"github.com/Safwood/go-server/pkg/service"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
+	sights "github.com/safwood/go-server"
+	"github.com/safwood/go-server/pkg/handler"
+	"github.com/safwood/go-server/pkg/repository"
+	"github.com/safwood/go-server/pkg/service"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )

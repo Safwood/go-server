@@ -3,8 +3,8 @@ package handler
 import (
 	"net/http"
 
-	sights "github.com/Safwood/go-server"
 	"github.com/gin-gonic/gin"
+	sights "github.com/safwood/go-server"
 )
 
 // @Summary SignUp

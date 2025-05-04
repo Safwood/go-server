@@ -3,8 +3,8 @@ package repository
 import (
 	"fmt"
 
-	sights "github.com/Safwood/go-server"
 	"github.com/jmoiron/sqlx"
+	sights "github.com/safwood/go-server"
 )
 
 type AuthPostgres struct {

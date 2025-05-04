@@ -1,8 +1,8 @@
 package service
 
 import (
-	sights "github.com/Safwood/go-server"
-	"github.com/Safwood/go-server/pkg/repository"
+	sights "github.com/safwood/go-server"
+	"github.com/safwood/go-server/pkg/repository"
 )
 
 type Authorization interface {
