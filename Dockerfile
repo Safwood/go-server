@@ -1,11 +1,13 @@
 FROM golang:1.23 as builder
 WORKDIR /app
 COPY . .
-RUN go build -o main ./cmd  # Путь к main.go
+RUN go build -o main ./cmd
 
 FROM alpine:latest
 WORKDIR /root/
+# Копируем бинарник + добавляем зависимости
 COPY --from=builder /app/main .
-# Порт вашего сервиса
+RUN apk add --no-cache libc6-compat  
+
 EXPOSE 8000
 CMD ["./main"]
