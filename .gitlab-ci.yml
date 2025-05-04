@@ -46,15 +46,16 @@ deploy:
     - echo "Host *" > ~/.ssh/config
     - echo "  StrictHostKeyChecking no" >> ~/.ssh/config
   script:
-    - ssh -p 2224 safwood@193.38.235.180 "
-      /usr/bin/docker pull $IMAGE_NAME:$IMAGE_TAG &&
-      /usr/bin/docker stop map-routes || true &&
-      /usr/bin/docker rm map-routes || true &&
-      /usr/bin/docker run -d \
-        --name map-routes \
-        --restart=always \
-        -p 8000:8000 \
-        $IMAGE_NAME:$IMAGE_TAG
+     - |
+      ssh -p 2224 safwood@193.38.235.180 "
+        /usr/bin/docker pull $IMAGE_NAME:$IMAGE_TAG && \
+        /usr/bin/docker stop map-routes || true && \
+        /usr/bin/docker rm map-routes || true && \
+        /usr/bin/docker run -d \
+          --name map-routes \
+          --restart=always \
+          -p 8000:8000 \
+          $IMAGE_NAME:$IMAGE_TAG
       "
   only:
     - main
